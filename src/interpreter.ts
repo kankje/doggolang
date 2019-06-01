@@ -1,5 +1,5 @@
 import { Lexer } from './lexer';
-import { Parser } from './parser';
+import { Parser, Program, ParserError } from './parser';
 import { VirtualMachine } from './virtual-machine';
 
 export class Interpreter {
@@ -11,7 +11,18 @@ export class Interpreter {
 
   run(code: string): any {
     const tokens = this.lexer.tokenize(code);
-    const program = this.parser.parse(tokens);
+    let program: Program;
+
+    try {
+      program = this.parser.parse(tokens);
+    } catch (e) {
+      if (e instanceof ParserError) {
+        console.error(e.message);
+        return 1;
+      }
+
+      throw e;
+    }
 
     // Could do semantic analysis, code generation, optimization here if we wanted to.
     // As of now, we just attempt to execute the parsed syntax tree to keep it simple.

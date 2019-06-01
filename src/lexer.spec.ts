@@ -7,11 +7,11 @@ test('tokenizes', () => {
     new Token(TokenType.IDENTIFIER, 'lassie'),
     new Token(TokenType.ASSIGN, 'AWOO'),
     new Token(TokenType.NUMBER, '5'),
-    new Token(TokenType.EOL),
+    new Token(TokenType.EOL, 'end of line'),
     new Token(TokenType.IDENTIFIER, 'luna'),
     new Token(TokenType.ASSIGN, 'AWOO'),
     new Token(TokenType.NUMBER, '6'),
-    new Token(TokenType.EOL),
-    new Token(TokenType.EOF),
+    new Token(TokenType.EOL, 'end of line'),
+    new Token(TokenType.EOF, 'end of file'),
   ]);
 });
