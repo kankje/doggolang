@@ -143,7 +143,7 @@ export class Parser {
 
     if (!token) {
       throw this.createError(
-        `Expected ${translateTokenType(type)} but got ${this.tokens[this.tokenIndex].value}`,
+        `Expected ${translateTokenType(type)} but found ${this.tokens[this.tokenIndex].value}`,
       );
     }
 
@@ -185,9 +185,7 @@ export class Parser {
     const left = this.parseTerm();
 
     if (this.accept(TokenType.MULTIPLY)) {
-      const right = this.parseTerm();
-
-      return new MultiplyNode(left, right);
+      return new MultiplyNode(left, this.parseMultiplication());
     }
 
     return left;
@@ -197,15 +195,11 @@ export class Parser {
     const left = this.parseMultiplication();
 
     if (this.accept(TokenType.ADD)) {
-      const right = this.parseMultiplication();
-
-      return new AddNode(left, right);
+      return new AddNode(left, this.parseAddition());
     }
 
     if (this.accept(TokenType.SUBTRACT)) {
-      const right = this.parseMultiplication();
-
-      return new SubtractNode(left, right);
+      return new SubtractNode(left, this.parseAddition());
     }
 
     return left;
@@ -215,15 +209,11 @@ export class Parser {
     const left = this.parseAddition();
 
     if (this.accept(TokenType.LESS_THAN)) {
-      const right = this.parseAddition();
-
-      return new LessThanNode(left, right);
+      return new LessThanNode(left, this.parseCondition());
     }
 
     if (this.accept(TokenType.MORE_THAN)) {
-      const right = this.parseAddition();
-
-      return new GreaterThanNode(left, right);
+      return new GreaterThanNode(left, this.parseCondition());
     }
 
     return left;
@@ -239,9 +229,7 @@ export class Parser {
     const variable = this.parseVariable();
 
     if (this.accept(TokenType.ASSIGN)) {
-      const expression = this.parseExpression();
-
-      return new AssignStatementNode(variable, expression);
+      return new AssignStatementNode(variable, this.parseExpression());
     }
 
     return new FunctionCallNode('print', [variable]);
@@ -313,7 +301,7 @@ export class Parser {
         return this.parseWhileStatement();
 
       default:
-        throw this.createError(`Expected statement but got ${token.value}`);
+        throw this.createError(`Expected statement but found ${token.value}`);
     }
   }
 }
