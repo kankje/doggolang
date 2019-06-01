@@ -143,7 +143,9 @@ export class Parser {
 
     if (!token) {
       throw this.createError(
-        `Expected ${translateTokenType(type)} but found ${this.tokens[this.tokenIndex].value}`,
+        `Expected ${translateTokenType(type)} but found ${
+          this.tokens[this.tokenIndex].value
+        }`,
       );
     }
 

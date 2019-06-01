@@ -1,6 +1,6 @@
 # doggolang
 
-Doggolang interpreter.
+Doggolang interpreter, solution to [Wunderpähkinä vol. 10](https://github.com/wunderdogsw/wunderpahkina-vol10)
 
 To run the very important code:
 

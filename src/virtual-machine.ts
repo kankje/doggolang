@@ -87,7 +87,9 @@ export class VirtualMachine {
       }
 
       if (node instanceof FunctionCallNode) {
-        this.builtInFunctions[node.name](...node.args.map(arg => this.evaluate(arg)));
+        this.builtInFunctions[node.name](
+          ...node.args.map(arg => this.evaluate(arg)),
+        );
         return;
       }
 
